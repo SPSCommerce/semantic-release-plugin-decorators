@@ -1,7 +1,14 @@
-const { isFunction, isPlainObject, negate } = require('lodash');
+const { isString, isFunction, isPlainObject, negate } = require('lodash');
 const importFrom = require('import-from');
 
-const requirePlugin = module => importFrom(process.cwd(), module);
+const requirePlugin = modules => {
+  if (isString(modules)) {
+    return importFrom(process.cwd(), modules);
+  }
+  if (isArray(modules)) {
+    return importFrom(process.cwd(), modules[0]);
+  }
+};
 
 const pluginsFromTypeConfig = config =>
   []
